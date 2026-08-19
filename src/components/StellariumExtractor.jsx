@@ -1,27 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./StellariumExtractor.css";
 
-function StellariumExtractor({ extractionYield = 1 }) {
+function StellariumExtractor() {
   const [stellarium, setStellarium] = useState(0);
-  const [extractPower, setExtractPower] = useState(1);
-  const upgradeCost = extractPower * extractPower;
-  const canUpgradeExtraction = stellarium >= upgradeCost;
+  const [extractionPower, setExtractionPower] = useState(1);
+  const [autoClickers, setAutoClickers] = useState(0);
+  const autoClickerCost = 10 + autoClickers * autoClickers * 10;
+  const upgradeCost = extractionPower * extractionPower;
+
+  useEffect(() => {
+    const autoClickerInterval = setInterval(() => {
+      setStellarium((currentStellarium) => currentStellarium + autoClickers);
+    }, 1000);
+
+    return () => {
+      clearInterval(autoClickerInterval);
+    };
+  }, [autoClickers]);
 
   const extractStellarium = () => {
-    setStellarium(
-      (currentStellarium) => currentStellarium + extractionYield * extractPower,
-    );
+    setStellarium((currentStellarium) => currentStellarium + extractionPower);
   };
 
   const upgradeExtraction = () => {
-    if (!canUpgradeExtraction) {
+    if (stellarium < upgradeCost) {
       return;
     }
 
-    setExtractPower((currentExtractPower) => currentExtractPower + 1);
-    setStellarium(
-      (currentStellarium) => currentStellarium - upgradeCost,
-    );
+    setStellarium((currentStellarium) => currentStellarium - upgradeCost);
+    setExtractionPower((currentExtractionPower) => currentExtractionPower + 1);
+  };
+
+  const upgradeAutoClicker = () => {
+    if (stellarium < autoClickerCost) {
+      return;
+    }
+
+    setStellarium((currentStellarium) => currentStellarium - autoClickerCost);
+    setAutoClickers((currentAutoClickers) => currentAutoClickers + 1);
   };
 
   return (
@@ -35,7 +51,12 @@ function StellariumExtractor({ extractionYield = 1 }) {
 
       <p className="stellarium-extractor__label">Moc wydobycia</p>
       <output className="stellarium-extractor__value" aria-live="polite">
-        {extractPower}
+        {extractionPower}/klik
+      </output>
+
+      <p className="stellarium-extractor__label">Automatyczne wydobycie</p>
+      <output className="stellarium-extractor__value" aria-live="polite">
+        {autoClickers}/sek
       </output>
 
       <button
@@ -48,9 +69,17 @@ function StellariumExtractor({ extractionYield = 1 }) {
       <button
         className="stellarium-extractor__button"
         onClick={upgradeExtraction}
-        disabled={!canUpgradeExtraction}
+        disabled={stellarium < upgradeCost}
       >
         Ulepsz wydobycie (koszt: {upgradeCost} Stellarium)
+      </button>
+
+      <button
+        className="stellarium-extractor__button"
+        onClick={upgradeAutoClicker}
+        disabled={stellarium < autoClickerCost}
+      >
+        Kup auto-klikacz (koszt: {autoClickerCost} Stellarium)
       </button>
     </main>
   );
