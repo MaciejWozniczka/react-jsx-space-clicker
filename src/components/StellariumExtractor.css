@@ -14,6 +14,9 @@
 
 .stellarium-extractor__eyebrow,
 .stellarium-extractor__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   margin: 0;
   color: #a5b4fc;
   font-size: 0.78rem;
@@ -23,6 +26,10 @@
 }
 
 .stellarium-extractor h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
   margin: 0.7rem 0 3rem;
   color: inherit;
   font-size: clamp(2.25rem, 6vw, 4.75rem);
@@ -48,6 +55,10 @@
 }
 
 .stellarium-extractor__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   margin-top: 2.5rem;
   padding: 0.95rem 1.5rem;
   border: 1px solid rgba(255, 255, 255, 0.24);
