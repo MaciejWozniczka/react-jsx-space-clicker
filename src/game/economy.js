@@ -1,6 +1,10 @@
-export const FLEET_CLICK_BONUS_RATE = 0.2;
-export const EXTRACTION_UPGRADE_BASE_COST = 24;
-export const EXTRACTION_UPGRADE_COST_GROWTH = 1.18;
+export const FLEET_CLICK_BONUS_RATE = 0.02;
+export const FLEET_PRODUCTION_GROWTH = 3;
+export const FLEET_COST_MULTIPLIER = 60;
+export const FLEET_COST_GROWTH = 1.16;
+export const FLEET_UNLOCK_COST_RATE = 0.6;
+export const EXTRACTION_UPGRADE_BASE_COST = 40;
+export const EXTRACTION_UPGRADE_COST_GROWTH = 1.24;
 
 const FLEET_TYPES = [
   ["collector-probe", "Sonda Zbieracza"],
@@ -18,21 +22,21 @@ const FLEET_TYPES = [
 ];
 
 export const AUTO_CLICKER_CATALOG = FLEET_TYPES.map(([id, name], index) => {
-  const production = 5 ** index;
-  const baseCost = production * 12;
+  const production = FLEET_PRODUCTION_GROWTH ** index;
+  const baseCost = production * FLEET_COST_MULTIPLIER;
 
   return {
     id,
     name,
     production,
-    manualClickBonus: Math.ceil(production * FLEET_CLICK_BONUS_RATE),
+    manualClickBonus: Math.floor(production * FLEET_CLICK_BONUS_RATE),
     baseCost,
-    unlockCost: index === 0 ? 0 : Math.ceil(baseCost * 0.7),
+    unlockCost: index === 0 ? 0 : Math.ceil(baseCost * FLEET_UNLOCK_COST_RATE),
   };
 });
 
 export function getAutoClickerCost(baseCost, owned) {
-  return Math.ceil(baseCost * 1.12 ** owned);
+  return Math.ceil(baseCost * FLEET_COST_GROWTH ** owned);
 }
 
 export function getAutoProduction(autoClickerCounts) {
