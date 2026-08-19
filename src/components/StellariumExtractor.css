@@ -249,8 +249,25 @@
   margin: 0;
 }
 
+.stellarium-extractor__shop-machine {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.stellarium-extractor__fleet-artwork {
+  flex: 0 0 auto;
+  width: 4.75rem;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--card-border) 75%, #818cf8);
+  border-radius: 0.55rem;
+  background-image: url("/fleet/fleet-unit-atlas.png");
+  background-position: var(--fleet-artwork-position);
+  background-size: 300% 400%;
+  box-shadow: 0 0 1.1rem rgba(59, 130, 246, 0.2);
+}
+
 .stellarium-extractor__shop-machine h3 {
-  margin-top: 0.22rem;
   color: var(--sky-heading);
   font-size: 1.1rem;
 }
@@ -416,6 +433,14 @@
 
   .stellarium-extractor__shop-machine h3 {
     font-size: 1rem;
+  }
+
+  .stellarium-extractor__shop-machine {
+    gap: 0.65rem;
+  }
+
+  .stellarium-extractor__fleet-artwork {
+    width: 3.8rem;
   }
 
   .stellarium-extractor__shop-production strong {

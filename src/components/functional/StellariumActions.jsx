@@ -41,6 +41,12 @@ function StellariumActions({
               <li className="stellarium-extractor__shop-item" key={autoClicker.id}>
                 <article>
                   <div className="stellarium-extractor__shop-machine">
+                    <div
+                      className="stellarium-extractor__fleet-artwork"
+                      style={{ "--fleet-artwork-position": autoClicker.artworkPosition }}
+                      role="img"
+                      aria-label={`Grafika jednostki: ${autoClicker.name}`}
+                    />
                     <h3>{autoClicker.name}</h3>
                   </div>
                   <div className="stellarium-extractor__shop-details">
