@@ -1,12 +1,10 @@
 import "./App.css";
-import ClickCounter from "./components/ClickCounter";
+import StellariumExtractor from "./components/StellariumExtractor";
 
 function App() {
   return (
     <>
-      <ClickCounter incrementCount />
-      <ClickCounter incrementCount={3} />
-      <ClickCounter incrementCount={7} />
+      <StellariumExtractor extractionYield />
     </>
   );
 }
