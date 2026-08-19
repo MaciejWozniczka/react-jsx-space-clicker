@@ -1,12 +1,13 @@
 import { useState } from "react";
 import "./ClickCounter.css";
 
-function ClickCounter() {
+function ClickCounter({ incrementCount = 1 }) {
   const [counter, setCounter] = useState(0);
 
   const increaseValue = () => {
-    setCounter((currentCounter) => currentCounter + 1);
+    setCounter((currentCounter) => currentCounter + incrementCount);
   };
+
   return (
     <main className="click-counter">
       <p className="click-counter__eyebrow">Kosmiczny licznik</p>

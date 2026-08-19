@@ -4,7 +4,9 @@ import ClickCounter from "./components/ClickCounter";
 function App() {
   return (
     <>
-      <ClickCounter />
+      <ClickCounter incrementCount />
+      <ClickCounter incrementCount={3} />
+      <ClickCounter incrementCount={7} />
     </>
   );
 }
