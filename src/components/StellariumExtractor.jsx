@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 const valuePulse = {
+  y: [-10, 0],
   scale: [1, 1.07, 1],
   opacity: [0.72, 1],
   transition: { duration: 0.24, ease: "easeOut" },
