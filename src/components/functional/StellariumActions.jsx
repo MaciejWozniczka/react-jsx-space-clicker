@@ -41,13 +41,29 @@ function StellariumActions({
               <li className="stellarium-extractor__shop-item" key={autoClicker.id}>
                 <article>
                   <div className="stellarium-extractor__shop-machine">
-                    <span className="stellarium-extractor__shop-type">Jednostka</span>
                     <h3>{autoClicker.name}</h3>
                   </div>
                   <div className="stellarium-extractor__shop-details">
                     <p className="stellarium-extractor__shop-production">
-                      <strong>+{formatNumber(autoClicker.production)}</strong>/sek
+                      Obecnie: <strong>+{formatNumber(autoClicker.currentProduction)}</strong>
+                      /sek
                     </p>
+                    {autoClicker.manualClickBonus > 0 && (
+                      <p className="stellarium-extractor__shop-production">
+                        Ręcznie: <strong>+{formatNumber(autoClicker.currentManualClickBonus)}</strong>
+                        /klik
+                      </p>
+                    )}
+                    <p className="stellarium-extractor__shop-production">
+                      Następny poziom: <strong>+{formatNumber(autoClicker.production)}</strong>
+                      /sek
+                    </p>
+                    {autoClicker.manualClickBonus > 0 && (
+                      <p className="stellarium-extractor__shop-production">
+                        Ręcznie: <strong>+{formatNumber(autoClicker.manualClickBonus)}</strong>
+                        /klik
+                      </p>
+                    )}
                     <p className="stellarium-extractor__shop-owned">
                       W służbie: <strong>{autoClicker.owned}</strong>
                     </p>

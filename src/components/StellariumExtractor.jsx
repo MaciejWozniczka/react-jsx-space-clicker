@@ -12,8 +12,8 @@ function StellariumExtractor({ isDark }) {
     autoClickers,
     autoProduction,
     buyAutoClicker,
+    clickYield,
     extractStellarium,
-    extractionPower,
     stellarium,
     upgradeCost,
     upgradeExtraction,
@@ -36,8 +36,8 @@ function StellariumExtractor({ isDark }) {
           <StellariumMetric
             icon={Gauge}
             label="Moc wydobycia"
-            value={`${formatNumber(extractionPower)}/klik`}
-            shouldAnimate={extractionPower > 1}
+            value={`${formatNumber(clickYield)}/klik`}
+            shouldAnimate={clickYield > 1}
           />
           <StellariumMetric
             icon={Bot}

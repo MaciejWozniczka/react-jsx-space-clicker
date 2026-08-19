@@ -1,34 +1,29 @@
 import { useEffect, useReducer } from "react";
+import {
+  AUTO_CLICKER_CATALOG,
+  getAutoClickerCost,
+  getAutoProduction,
+  getClickYield,
+  getExtractionUpgrade,
+  getFleetClickBonus,
+} from "../game/economy.js";
 
-const AUTO_CLICKER_CATALOG = [
-  { id: "collector-probe", name: "Sonda Zbieracza", production: 1, baseCost: 10, unlockCost: 0 },
-  { id: "mining-drone", name: "Dron Górniczy", production: 5, baseCost: 75, unlockCost: 50 },
-  { id: "orbital-extractor", name: "Orbitalny Ekstraktor", production: 25, baseCost: 550, unlockCost: 350 },
-  { id: "drilling-robot", name: "Robot Wiertniczy", production: 125, baseCost: 4000, unlockCost: 2500 },
-  { id: "lunar-mine", name: "Księżycowa Kopalnia", production: 625, baseCost: 29000, unlockCost: 18000 },
-  { id: "processing-station", name: "Stacja Przetwórcza", production: 3125, baseCost: 210000, unlockCost: 130000 },
-  { id: "mining-fleet", name: "Flota Wydobywcza", production: 15625, baseCost: 1500000, unlockCost: 950000 },
-  { id: "mining-ring", name: "Pierścień Górniczy", production: 78125, baseCost: 11000000, unlockCost: 7000000 },
-  { id: "asteroid-combine", name: "Asteroidowy Kombinat", production: 390625, baseCost: 80000000, unlockCost: 50000000 },
-  { id: "stellar-synthesizer", name: "Syntezer Gwiezdny", production: 1953125, baseCost: 580000000, unlockCost: 360000000 },
-  { id: "nebula-reaper", name: "Żniwiarz Mgławic", production: 9765625, baseCost: 4200000000, unlockCost: 2600000000 },
-  { id: "quasar-collector", name: "Kolektor Kwazara", production: 48828125, baseCost: 30000000000, unlockCost: 19000000000 },
-];
-
-const getAutoClickerCost = (baseCost, owned) =>
-  Math.ceil(baseCost * 1.15 ** owned);
-
-const initialGameState = {
+export const initialGameState = {
   stellarium: 0,
   highestStellarium: 0,
-  extractionPower: 1,
+  extractionLevel: 0,
   autoClickerCounts: {},
 };
 
-function gameReducer(state, action) {
+export function gameReducer(state, action) {
   if (action.type === "extract" || action.type === "auto-produce") {
     const amount =
-      action.type === "extract" ? state.extractionPower : action.amount;
+      action.type === "extract"
+        ? getClickYield(
+            state.extractionLevel,
+            state.autoClickerCounts,
+          )
+        : action.amount;
 
     if (amount === 0) {
       return state;
@@ -44,7 +39,7 @@ function gameReducer(state, action) {
   }
 
   if (action.type === "upgrade-extraction") {
-    const cost = state.extractionPower ** 2;
+    const { cost } = getExtractionUpgrade(state.extractionLevel);
 
     if (state.stellarium < cost) {
       return state;
@@ -53,7 +48,7 @@ function gameReducer(state, action) {
     return {
       ...state,
       stellarium: state.stellarium - cost,
-      extractionPower: state.extractionPower + 1,
+      extractionLevel: state.extractionLevel + 1,
     };
   }
 
@@ -88,10 +83,13 @@ function gameReducer(state, action) {
 
 export function useStellariumGame() {
   const [gameState, dispatch] = useReducer(gameReducer, initialGameState);
-  const { autoClickerCounts, extractionPower, highestStellarium, stellarium } =
+  const { autoClickerCounts, extractionLevel, highestStellarium, stellarium } =
     gameState;
-
-  const upgradeCost = extractionPower * extractionPower;
+  const autoProduction = getAutoProduction(autoClickerCounts);
+  const clickYield = getClickYield(extractionLevel, autoClickerCounts);
+  const fleetClickBonus = getFleetClickBonus(autoClickerCounts);
+  const extractionUpgrade = getExtractionUpgrade(extractionLevel);
+  const upgradeCost = extractionUpgrade.cost;
   const autoClickers = AUTO_CLICKER_CATALOG.map((autoClicker) => {
     const owned = autoClickerCounts[autoClicker.id] ?? 0;
     const cost = getAutoClickerCost(autoClicker.baseCost, owned);
@@ -100,14 +98,12 @@ export function useStellariumGame() {
       ...autoClicker,
       owned,
       cost,
+      currentManualClickBonus: owned * autoClicker.manualClickBonus,
+      currentProduction: owned * autoClicker.production,
       isUnlocked: highestStellarium >= autoClicker.unlockCost,
       canBuy: stellarium >= cost,
     };
   });
-  const autoProduction = autoClickers.reduce(
-    (total, autoClicker) => total + autoClicker.owned * autoClicker.production,
-    0,
-  );
 
   useEffect(() => {
     const autoClickerInterval = setInterval(() => {
@@ -117,26 +113,16 @@ export function useStellariumGame() {
     return () => clearInterval(autoClickerInterval);
   }, [autoProduction]);
 
-  const extractStellarium = () => {
-    dispatch({ type: "extract" });
-  };
-
-  const upgradeExtraction = () => {
-    dispatch({ type: "upgrade-extraction" });
-  };
-
-  const buyAutoClicker = (id) => {
-    dispatch({ type: "buy-auto-clicker", id });
-  };
-
   return {
     autoClickers,
     autoProduction,
-    buyAutoClicker,
-    extractStellarium,
-    extractionPower,
+    buyAutoClicker: (id) => dispatch({ type: "buy-auto-clicker", id }),
+    clickYield,
+    extractStellarium: () => dispatch({ type: "extract" }),
+    extractionUpgrade,
+    fleetClickBonus,
     stellarium,
     upgradeCost,
-    upgradeExtraction,
+    upgradeExtraction: () => dispatch({ type: "upgrade-extraction" }),
   };
 }
