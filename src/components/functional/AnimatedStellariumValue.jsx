@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, useAnimationControls, AnimatePresence } from "framer-motion";
 
 const valuePulse = {
   y: [-10, 0],
@@ -18,13 +18,15 @@ function AnimatedStellariumValue({ children, shouldAnimate }) {
   }, [children, controls, shouldAnimate]);
 
   return (
-    <motion.output
-      animate={controls}
-      className="stellarium-extractor__value"
-      aria-live="polite"
-    >
-      {children}
-    </motion.output>
+    <AnimatePresence mode="popLayout">
+      <motion.output
+        animate={controls}
+        className="stellarium-extractor__value"
+        aria-live="polite"
+      >
+        {children}
+      </motion.output>
+    </AnimatePresence>
   );
 }
 

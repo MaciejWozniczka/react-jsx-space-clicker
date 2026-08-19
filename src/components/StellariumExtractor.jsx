@@ -4,21 +4,23 @@ import { useStellariumGame } from "../hooks/useStellariumGame";
 import StellariumActions from "./functional/StellariumActions";
 import StellariumHeader from "./StellariumHeader";
 import StellariumMetric from "./StellariumMetric";
+import StarField from "./StarField";
 
-function StellariumExtractor() {
+function StellariumExtractor({ isDark }) {
   const {
-    autoClickerCost,
     autoClickers,
+    autoProduction,
+    buyAutoClicker,
     extractStellarium,
     extractionPower,
     stellarium,
-    upgradeAutoClicker,
     upgradeCost,
     upgradeExtraction,
   } = useStellariumGame();
 
   return (
     <main className="stellarium-extractor">
+      <StarField visible={isDark} />
       <StellariumHeader />
       <StellariumMetric
         icon={Gem}
@@ -35,15 +37,14 @@ function StellariumExtractor() {
       <StellariumMetric
         icon={Bot}
         label="Automatyczne wydobycie"
-        value={`${autoClickers}/sek`}
-        shouldAnimate={autoClickers > 0}
+        value={`${autoProduction}/sek`}
+        shouldAnimate={autoProduction > 0}
       />
       <StellariumActions
-        autoClickerCost={autoClickerCost}
-        canUpgradeAutoClicker={stellarium >= autoClickerCost}
+        autoClickers={autoClickers}
         canUpgradeExtraction={stellarium >= upgradeCost}
         onExtract={extractStellarium}
-        onUpgradeAutoClicker={upgradeAutoClicker}
+        onBuyAutoClicker={buyAutoClicker}
         onUpgradeExtraction={upgradeExtraction}
         upgradeCost={upgradeCost}
       />

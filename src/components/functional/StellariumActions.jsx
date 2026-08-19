@@ -1,11 +1,10 @@
-import { Pickaxe, ShoppingCart, Zap } from "lucide-react";
+import { Bot, Pickaxe, Zap } from "lucide-react";
 
 function StellariumActions({
-  autoClickerCost,
-  canUpgradeAutoClicker,
+  autoClickers,
   canUpgradeExtraction,
   onExtract,
-  onUpgradeAutoClicker,
+  onBuyAutoClicker,
   onUpgradeExtraction,
   upgradeCost,
 }) {
@@ -25,14 +24,42 @@ function StellariumActions({
         Ulepsz wydobycie (koszt: {upgradeCost} Stellarium)
       </button>
 
-      <button
-        className="stellarium-extractor__button"
-        onClick={onUpgradeAutoClicker}
-        disabled={!canUpgradeAutoClicker}
-      >
-        <ShoppingCart size="1em" aria-hidden="true" />
-        Kup auto-klikacz (koszt: {autoClickerCost} Stellarium)
-      </button>
+      <section className="stellarium-extractor__shop" aria-labelledby="auto-clicker-shop-title">
+        <div className="stellarium-extractor__shop-heading">
+          <Bot size="1.2em" aria-hidden="true" />
+          <div>
+            <p>Manifest floty</p>
+            <h2 id="auto-clicker-shop-title">Automatyczne wydobycie</h2>
+          </div>
+        </div>
+        <ol className="stellarium-extractor__shop-list">
+          {autoClickers
+            .filter((autoClicker) => autoClicker.isUnlocked)
+            .map((autoClicker) => (
+              <li className="stellarium-extractor__shop-item" key={autoClicker.id}>
+                <article>
+                  <div className="stellarium-extractor__shop-machine">
+                    <span className="stellarium-extractor__shop-type">Jednostka</span>
+                    <h3>{autoClicker.name}</h3>
+                  </div>
+                  <p className="stellarium-extractor__shop-production">
+                    <strong>+{autoClicker.production}</strong>/sek
+                  </p>
+                  <p className="stellarium-extractor__shop-owned">
+                    W służbie: <strong>{autoClicker.owned}</strong>
+                  </p>
+                </article>
+                <button
+                  className="stellarium-extractor__shop-button"
+                  onClick={() => onBuyAutoClicker(autoClicker.id)}
+                  disabled={!autoClicker.canBuy}
+                >
+                  Kup za {autoClicker.cost} Stellarium
+                </button>
+              </li>
+            ))}
+        </ol>
+      </section>
     </>
   );
 }
