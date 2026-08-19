@@ -4,6 +4,8 @@ import "./StellariumExtractor.css";
 function StellariumExtractor({ extractionYield = 1 }) {
   const [stellarium, setStellarium] = useState(0);
   const [extractPower, setExtractPower] = useState(1);
+  const upgradeCost = extractPower * extractPower;
+  const canUpgradeExtraction = stellarium >= upgradeCost;
 
   const extractStellarium = () => {
     setStellarium(
@@ -12,9 +14,13 @@ function StellariumExtractor({ extractionYield = 1 }) {
   };
 
   const upgradeExtraction = () => {
+    if (!canUpgradeExtraction) {
+      return;
+    }
+
     setExtractPower((currentExtractPower) => currentExtractPower + 1);
     setStellarium(
-      (currentStellarium) => currentStellarium - extractPower * extractPower,
+      (currentStellarium) => currentStellarium - upgradeCost,
     );
   };
 
@@ -42,8 +48,9 @@ function StellariumExtractor({ extractionYield = 1 }) {
       <button
         className="stellarium-extractor__button"
         onClick={upgradeExtraction}
+        disabled={!canUpgradeExtraction}
       >
-        Ulepsz wydobycie (koszt: {extractPower * extractPower} Stellarium)
+        Ulepsz wydobycie (koszt: {upgradeCost} Stellarium)
       </button>
     </main>
   );
