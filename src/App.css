@@ -17,6 +17,90 @@
   }
 }
 
+.app {
+  position: relative;
+  min-height: 100svh;
+}
+
+.app--dark {
+  --sky-text: #f8fafc;
+  --sky-muted: #a5b4fc;
+  --sky-accent: #c4b5fd;
+  --sky-heading: #ffffff;
+  --sky-background:
+    radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.42), transparent 34rem),
+    radial-gradient(circle at 10% 85%, rgba(14, 165, 233, 0.22), transparent 24rem),
+    #070b1a;
+  --card-bg: rgba(15, 23, 42, 0.62);
+  --card-border: rgba(196, 181, 253, 0.3);
+  --card-text: #cbd5e1;
+  --button-border: rgba(255, 255, 255, 0.24);
+  --button-disabled: #475569;
+  --theme-toggle-bg: rgba(15, 23, 42, 0.8);
+  --theme-toggle-border: rgba(196, 181, 253, 0.42);
+  --theme-toggle-text: #f8fafc;
+  --theme-toggle-shadow: rgba(2, 6, 23, 0.35);
+  --theme-focus: #c4b5fd;
+}
+
+.app--light {
+  --sky-text: #102a43;
+  --sky-muted: #1d4ed8;
+  --sky-accent: #1e40af;
+  --sky-heading: #0f2f58;
+  --sky-background:
+    radial-gradient(circle at 78% 16%, rgba(255, 247, 151, 0.95) 0 3.8rem, transparent 4rem),
+    radial-gradient(ellipse 5.8rem 2.3rem at 18% 31%, rgba(255, 255, 255, 0.78) 0 98%, transparent 100%),
+    radial-gradient(circle 3.4rem at 13% 31%, rgba(255, 255, 255, 0.86) 0 97%, transparent 100%),
+    radial-gradient(circle 4.4rem at 19% 27%, rgba(255, 255, 255, 0.88) 0 97%, transparent 100%),
+    radial-gradient(circle 3.1rem at 25% 31%, rgba(255, 255, 255, 0.82) 0 97%, transparent 100%),
+    radial-gradient(ellipse 7rem 2.7rem at 77% 55%, rgba(255, 255, 255, 0.58) 0 98%, transparent 100%),
+    radial-gradient(circle 4.2rem at 70% 55%, rgba(255, 255, 255, 0.64) 0 97%, transparent 100%),
+    radial-gradient(circle 5rem at 77% 50%, rgba(255, 255, 255, 0.68) 0 97%, transparent 100%),
+    radial-gradient(circle 3.7rem at 85% 55%, rgba(255, 255, 255, 0.6) 0 97%, transparent 100%),
+    linear-gradient(180deg, #62b8f7 0%, #bce9ff 54%, #e8f7ff 100%);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(30, 64, 175, 0.22);
+  --card-text: #294762;
+  --button-border: rgba(255, 255, 255, 0.72);
+  --button-disabled: #7890a8;
+  --theme-toggle-bg: rgba(255, 255, 255, 0.82);
+  --theme-toggle-border: rgba(30, 64, 175, 0.26);
+  --theme-toggle-text: #102a43;
+  --theme-toggle-shadow: rgba(15, 47, 88, 0.18);
+  --theme-focus: #1d4ed8;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--theme-toggle-border);
+  border-radius: 999px;
+  color: var(--theme-toggle-text);
+  background: var(--theme-toggle-bg);
+  box-shadow: 0 0.5rem 1.5rem var(--theme-toggle-shadow);
+  cursor: pointer;
+  font: 700 0.875rem/1 var(--sans);
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+}
+
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--theme-focus);
+  outline-offset: 3px;
+}
+
+
 .hero {
   position: relative;
 
