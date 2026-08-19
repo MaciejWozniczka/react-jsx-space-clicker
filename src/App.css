@@ -41,6 +41,10 @@
   --theme-toggle-text: #f8fafc;
   --theme-toggle-shadow: rgba(2, 6, 23, 0.35);
   --theme-focus: #c4b5fd;
+  --control-highlight: rgba(196, 181, 253, 0.14);
+  --control-highlight-strong: rgba(129, 140, 248, 0.26);
+  --action-start: #6d28d9;
+  --action-end: #1d4ed8;
 }
 
 .app--light {
@@ -69,6 +73,10 @@
   --theme-toggle-text: #102a43;
   --theme-toggle-shadow: rgba(15, 47, 88, 0.18);
   --theme-focus: #1d4ed8;
+  --control-highlight: rgba(255, 255, 255, 0.46);
+  --control-highlight-strong: rgba(59, 130, 246, 0.22);
+  --action-start: #2563eb;
+  --action-end: #0f4c9a;
 }
 
 .theme-toggle {
@@ -78,21 +86,32 @@
   z-index: 10;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  min-height: 44px;
-  padding: 0.55rem 0.85rem;
-  border: 1px solid var(--theme-toggle-border);
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.6rem 0.9rem 0.6rem 0.65rem;
+  border: 0;
   border-radius: 999px;
   color: var(--theme-toggle-text);
-  background: var(--theme-toggle-bg);
-  box-shadow: 0 0.5rem 1.5rem var(--theme-toggle-shadow);
+  background: transparent;
+  box-shadow: none;
   cursor: pointer;
-  font: 700 0.875rem/1 var(--sans);
-  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+  font: 700 0.78rem/1 var(--sans);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 180ms ease-out, border-color 180ms ease-out, box-shadow 180ms ease-out, transform 180ms ease-out;
+}
+
+.theme-toggle > svg {
+  padding: 0;
 }
 
 .theme-toggle:hover {
+  background: var(--control-highlight);
   transform: translateY(-2px);
+}
+
+.theme-toggle:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .theme-toggle:focus-visible {

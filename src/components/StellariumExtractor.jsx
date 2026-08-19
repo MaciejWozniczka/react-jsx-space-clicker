@@ -21,33 +21,41 @@ function StellariumExtractor({ isDark }) {
   return (
     <main className="stellarium-extractor">
       <StarField visible={isDark} />
-      <StellariumHeader />
-      <StellariumMetric
-        icon={Gem}
-        label="Wydobyte Stellarium"
-        value={stellarium}
-        shouldAnimate={stellarium > 0}
-      />
-      <StellariumMetric
-        icon={Gauge}
-        label="Moc wydobycia"
-        value={`${extractionPower}/klik`}
-        shouldAnimate={extractionPower > 1}
-      />
-      <StellariumMetric
-        icon={Bot}
-        label="Automatyczne wydobycie"
-        value={`${autoProduction}/sek`}
-        shouldAnimate={autoProduction > 0}
-      />
-      <StellariumActions
-        autoClickers={autoClickers}
-        canUpgradeExtraction={stellarium >= upgradeCost}
-        onExtract={extractStellarium}
-        onBuyAutoClicker={buyAutoClicker}
-        onUpgradeExtraction={upgradeExtraction}
-        upgradeCost={upgradeCost}
-      />
+      <header className="stellarium-extractor__status-panel">
+        <div className="stellarium-extractor__identity">
+          <StellariumHeader />
+        </div>
+        <div className="stellarium-extractor__metrics" aria-label="Stan wydobycia">
+          <StellariumMetric
+            icon={Gem}
+            label="Wydobyte Stellarium"
+            value={stellarium}
+            shouldAnimate={stellarium > 0}
+          />
+          <StellariumMetric
+            icon={Gauge}
+            label="Moc wydobycia"
+            value={`${extractionPower}/klik`}
+            shouldAnimate={extractionPower > 1}
+          />
+          <StellariumMetric
+            icon={Bot}
+            label="Automatyczne wydobycie"
+            value={`${autoProduction}/sek`}
+            shouldAnimate={autoProduction > 0}
+          />
+        </div>
+      </header>
+      <section className="stellarium-extractor__content" aria-label="Sterowanie wydobyciem">
+        <StellariumActions
+          autoClickers={autoClickers}
+          canUpgradeExtraction={stellarium >= upgradeCost}
+          onExtract={extractStellarium}
+          onBuyAutoClicker={buyAutoClicker}
+          onUpgradeExtraction={upgradeExtraction}
+          upgradeCost={upgradeCost}
+        />
+      </section>
     </main>
   );
 }

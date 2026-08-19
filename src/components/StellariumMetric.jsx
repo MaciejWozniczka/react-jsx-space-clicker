@@ -2,7 +2,7 @@ import AnimatedStellariumValue from "./functional/AnimatedStellariumValue";
 
 function StellariumMetric({ icon: Icon, label, value, shouldAnimate }) {
   return (
-    <>
+    <div className="stellarium-extractor__metric">
       <p className="stellarium-extractor__label">
         <Icon size="1em" aria-hidden="true" />
         {label}
@@ -10,7 +10,7 @@ function StellariumMetric({ icon: Icon, label, value, shouldAnimate }) {
       <AnimatedStellariumValue shouldAnimate={shouldAnimate}>
         {value}
       </AnimatedStellariumValue>
-    </>
+    </div>
   );
 }
 
