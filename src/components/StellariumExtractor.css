@@ -71,6 +71,10 @@
   transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
 }
 
+.stellarium-extractor__button > svg {
+  flex: 0 0 1em;
+}
+
 .stellarium-extractor__button:hover {
   filter: brightness(1.12);
   box-shadow: 0 1rem 2.5rem rgba(37, 99, 235, 0.52);

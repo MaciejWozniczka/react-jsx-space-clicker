@@ -53,15 +53,15 @@ function StellariumExtractor() {
   return (
     <main className="stellarium-extractor">
       <p className="stellarium-extractor__eyebrow">
-        <Orbit size={16} aria-hidden="true" />
+        <Orbit size="1em" aria-hidden="true" />
         React Space Clicker
       </p>
       <h1>
-        <Rocket size={32} aria-hidden="true" />
+        <Rocket size="0.75em" aria-hidden="true" />
         Witaj, kapitanie!
       </h1>
       <p className="stellarium-extractor__label">
-        <Gem size={15} aria-hidden="true" />
+        <Gem size="1em" aria-hidden="true" />
         Wydobyte Stellarium
       </p>
       <output className="stellarium-extractor__value" aria-live="polite">
@@ -69,7 +69,7 @@ function StellariumExtractor() {
       </output>
 
       <p className="stellarium-extractor__label">
-        <Gauge size={15} aria-hidden="true" />
+        <Gauge size="1em" aria-hidden="true" />
         Moc wydobycia
       </p>
       <output className="stellarium-extractor__value" aria-live="polite">
@@ -77,7 +77,7 @@ function StellariumExtractor() {
       </output>
 
       <p className="stellarium-extractor__label">
-        <Bot size={15} aria-hidden="true" />
+        <Bot size="1em" aria-hidden="true" />
         Automatyczne wydobycie
       </p>
       <output className="stellarium-extractor__value" aria-live="polite">
@@ -88,7 +88,7 @@ function StellariumExtractor() {
         className="stellarium-extractor__button"
         onClick={extractStellarium}
       >
-        <Pickaxe size={20} aria-hidden="true" />
+        <Pickaxe size="1em" aria-hidden="true" />
         Wydobywaj
       </button>
 
@@ -97,7 +97,7 @@ function StellariumExtractor() {
         onClick={upgradeExtraction}
         disabled={stellarium < upgradeCost}
       >
-        <Zap size={20} aria-hidden="true" />
+        <Zap size="1em" aria-hidden="true" />
         Ulepsz wydobycie (koszt: {upgradeCost} Stellarium)
       </button>
 
@@ -106,7 +106,7 @@ function StellariumExtractor() {
         onClick={upgradeAutoClicker}
         disabled={stellarium < autoClickerCost}
       >
-        <ShoppingCart size={20} aria-hidden="true" />
+        <ShoppingCart size="1em" aria-hidden="true" />
         Kup auto-klikacz (koszt: {autoClickerCost} Stellarium)
       </button>
     </main>
