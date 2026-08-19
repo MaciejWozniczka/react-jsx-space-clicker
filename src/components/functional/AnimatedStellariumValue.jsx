@@ -8,7 +8,7 @@ const valuePulse = {
   transition: { duration: 0.24, ease: "easeOut" },
 };
 
-function AnimatedStellariumValue({ children, shouldAnimate }) {
+function AnimatedStellariumValue({ children, fullValue, unit, shouldAnimate }) {
   const controls = useAnimationControls();
 
   useEffect(() => {
@@ -23,8 +23,10 @@ function AnimatedStellariumValue({ children, shouldAnimate }) {
         animate={controls}
         className="stellarium-extractor__value"
         aria-live="polite"
+        aria-label={fullValue}
       >
-        {children}
+        <span>{children}</span>
+        {unit && <span className="stellarium-extractor__unit">{unit}</span>}
       </motion.output>
     </AnimatePresence>
   );

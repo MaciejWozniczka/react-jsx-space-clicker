@@ -44,26 +44,31 @@ function StellariumActions({
                     <h3>{autoClicker.name}</h3>
                   </div>
                   <div className="stellarium-extractor__shop-details">
-                    <p className="stellarium-extractor__shop-production">
-                      Obecnie: <strong>+{formatNumber(autoClicker.currentProduction)}</strong>
-                      /sek
-                    </p>
-                    {autoClicker.manualClickBonus > 0 && (
+                    <div className="stellarium-extractor__shop-stat">
+                      <span>Obecnie</span>
                       <p className="stellarium-extractor__shop-production">
-                        Ręcznie: <strong>+{formatNumber(autoClicker.currentManualClickBonus)}</strong>
-                        /klik
+                        <strong>+{formatNumber(autoClicker.currentProduction)}</strong>/sek
                       </p>
-                    )}
-                    <p className="stellarium-extractor__shop-production">
+                      <p className="stellarium-extractor__shop-production">
+                        <strong>+{formatNumber(autoClicker.currentManualClickBonus)}</strong>/klik
+                      </p>
+                    </div>
+                    <div className="stellarium-extractor__shop-stat">
+                      <span>{"Nast\u0119pny poziom"}</span>
+                      <p className="stellarium-extractor__shop-production">
+                        <strong>+{formatNumber(autoClicker.production)}</strong>/sek
+                      </p>
+                      <p className="stellarium-extractor__shop-production">
+                        <strong>+{formatNumber(autoClicker.manualClickBonus)}</strong>/klik
+                      </p>
+                    </div>
+                    <p className="stellarium-extractor__shop-production stellarium-extractor__shop-production--legacy">
                       Następny poziom: <strong>+{formatNumber(autoClicker.production)}</strong>
                       /sek
                     </p>
-                    {autoClicker.manualClickBonus > 0 && (
-                      <p className="stellarium-extractor__shop-production">
-                        Ręcznie: <strong>+{formatNumber(autoClicker.manualClickBonus)}</strong>
-                        /klik
-                      </p>
-                    )}
+                    <p className="stellarium-extractor__shop-production stellarium-extractor__shop-production--legacy">
+                      Premia kliknięcia: <strong>+{formatNumber(autoClicker.manualClickBonus)}</strong>/klik
+                    </p>
                     <p className="stellarium-extractor__shop-owned">
                       W służbie: <strong>{autoClicker.owned}</strong>
                     </p>
