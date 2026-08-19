@@ -1,7 +1,7 @@
 import "./StellariumExtractor.css";
 import { Bot, Gauge, Gem } from "lucide-react";
 import { useStellariumGame } from "../hooks/useStellariumGame";
-import StellariumActions from "./StellariumActions";
+import StellariumActions from "./functional/StellariumActions";
 import StellariumHeader from "./StellariumHeader";
 import StellariumMetric from "./StellariumMetric";
 

@@ -1,4 +1,4 @@
-import AnimatedStellariumValue from "./AnimatedStellariumValue";
+import AnimatedStellariumValue from "./functional/AnimatedStellariumValue";
 
 function StellariumMetric({ icon: Icon, label, value, shouldAnimate }) {
   return (
