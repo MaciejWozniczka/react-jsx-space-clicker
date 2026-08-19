@@ -1,4 +1,5 @@
 import { Bot, Pickaxe, Zap } from "lucide-react";
+import { formatNumber } from "../../utils/formatNumber";
 
 function StellariumActions({
   autoClickers,
@@ -22,7 +23,7 @@ function StellariumActions({
           disabled={!canUpgradeExtraction}
         >
           <Zap size="1em" aria-hidden="true" />
-          Ulepsz wydobycie ({upgradeCost})
+          Ulepsz wydobycie ({formatNumber(upgradeCost)})
         </button>
       </div>
 
@@ -45,7 +46,7 @@ function StellariumActions({
                   </div>
                   <div className="stellarium-extractor__shop-details">
                     <p className="stellarium-extractor__shop-production">
-                      <strong>+{autoClicker.production}</strong>/sek
+                      <strong>+{formatNumber(autoClicker.production)}</strong>/sek
                     </p>
                     <p className="stellarium-extractor__shop-owned">
                       W służbie: <strong>{autoClicker.owned}</strong>
@@ -57,7 +58,7 @@ function StellariumActions({
                   onClick={() => onBuyAutoClicker(autoClicker.id)}
                   disabled={!autoClicker.canBuy}
                 >
-                  Kup za {autoClicker.cost} Stellarium
+                  Kup za {formatNumber(autoClicker.cost)} Stellarium
                 </button>
               </li>
             ))}

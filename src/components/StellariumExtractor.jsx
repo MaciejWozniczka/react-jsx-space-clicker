@@ -1,6 +1,7 @@
 import "./StellariumExtractor.css";
 import { Bot, Gauge, Gem } from "lucide-react";
 import { useStellariumGame } from "../hooks/useStellariumGame";
+import { formatNumber } from "../utils/formatNumber";
 import StellariumActions from "./functional/StellariumActions";
 import StellariumHeader from "./StellariumHeader";
 import StellariumMetric from "./StellariumMetric";
@@ -29,19 +30,19 @@ function StellariumExtractor({ isDark }) {
           <StellariumMetric
             icon={Gem}
             label="Wydobyte Stellarium"
-            value={stellarium}
+            value={formatNumber(stellarium)}
             shouldAnimate={stellarium > 0}
           />
           <StellariumMetric
             icon={Gauge}
             label="Moc wydobycia"
-            value={`${extractionPower}/klik`}
+            value={`${formatNumber(extractionPower)}/klik`}
             shouldAnimate={extractionPower > 1}
           />
           <StellariumMetric
             icon={Bot}
             label="Automatyczne wydobycie"
-            value={`${autoProduction}/sek`}
+            value={`${formatNumber(autoProduction)}/sek`}
             shouldAnimate={autoProduction > 0}
           />
         </div>
