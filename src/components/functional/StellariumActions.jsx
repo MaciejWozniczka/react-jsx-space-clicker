@@ -1,31 +1,34 @@
 import { Bot, Pickaxe, Zap } from "lucide-react";
 import { formatNumber } from "../../utils/formatNumber";
 
-function StellariumActions({
-  autoClickers,
+export function StellariumActionControls({
   canUpgradeExtraction,
   onExtract,
-  onBuyAutoClicker,
   onUpgradeExtraction,
   upgradeCost,
 }) {
   return (
-    <div className="stellarium-extractor__actions">
-      <div className="stellarium-extractor__action-controls">
-        <button className="stellarium-extractor__button" onClick={onExtract}>
-          <Pickaxe size="1em" aria-hidden="true" />
-          Wydobywaj
-        </button>
+    <div className="stellarium-extractor__action-controls">
+      <button className="stellarium-extractor__button" onClick={onExtract}>
+        <Pickaxe size="1em" aria-hidden="true" />
+        Wydobywaj
+      </button>
 
-        <button
-          className="stellarium-extractor__button"
-          onClick={onUpgradeExtraction}
-          disabled={!canUpgradeExtraction}
-        >
-          <Zap size="1em" aria-hidden="true" />
-          Ulepsz wydobycie ({formatNumber(upgradeCost)})
-        </button>
-      </div>
+      <button
+        className="stellarium-extractor__button"
+        onClick={onUpgradeExtraction}
+        disabled={!canUpgradeExtraction}
+      >
+        <Zap size="1em" aria-hidden="true" />
+        Ulepsz wydobycie ({formatNumber(upgradeCost)})
+      </button>
+    </div>
+  );
+}
+
+function StellariumActions({ autoClickers, onBuyAutoClicker }) {
+  return (
+    <div className="stellarium-extractor__actions">
 
       <section className="stellarium-extractor__shop" aria-labelledby="auto-clicker-shop-title">
         <div className="stellarium-extractor__shop-heading">
@@ -47,7 +50,9 @@ function StellariumActions({
                       role="img"
                       aria-label={`Grafika jednostki: ${autoClicker.name}`}
                     />
-                    <h3>{autoClicker.name}</h3>
+                    <h3>
+                      {autoClicker.name} <span className="stellarium-extractor__shop-owned">({autoClicker.owned})</span>
+                    </h3>
                   </div>
                   <div className="stellarium-extractor__shop-details">
                     <div className="stellarium-extractor__shop-stat">

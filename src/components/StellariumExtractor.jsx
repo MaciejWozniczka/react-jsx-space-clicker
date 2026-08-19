@@ -2,7 +2,7 @@ import "./StellariumExtractor.css";
 import { Bot, Gauge, Gem } from "lucide-react";
 import { useStellariumGame } from "../hooks/useStellariumGame";
 import { formatCompactNumber, formatNumber } from "../utils/formatNumber";
-import StellariumActions from "./functional/StellariumActions";
+import StellariumActions, { StellariumActionControls } from "./functional/StellariumActions";
 import StellariumHeader from "./StellariumHeader";
 import StellariumMetric from "./StellariumMetric";
 import StarField from "./StarField";
@@ -51,15 +51,17 @@ function StellariumExtractor({ isDark }) {
             shouldAnimate={autoProduction > 0}
           />
         </div>
+        <StellariumActionControls
+          canUpgradeExtraction={stellarium >= upgradeCost}
+          onExtract={extractStellarium}
+          onUpgradeExtraction={upgradeExtraction}
+          upgradeCost={upgradeCost}
+        />
       </header>
       <section className="stellarium-extractor__content" aria-label="Sterowanie wydobyciem">
         <StellariumActions
           autoClickers={autoClickers}
-          canUpgradeExtraction={stellarium >= upgradeCost}
-          onExtract={extractStellarium}
           onBuyAutoClicker={buyAutoClicker}
-          onUpgradeExtraction={upgradeExtraction}
-          upgradeCost={upgradeCost}
         />
       </section>
     </main>
