@@ -1,0 +1,72 @@
+.click-counter {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-height: 100%;
+  padding: clamp(2rem, 8vw, 6rem) 1.5rem;
+  overflow: hidden;
+  color: #f8fafc;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.42), transparent 34rem),
+    radial-gradient(circle at 10% 85%, rgba(14, 165, 233, 0.22), transparent 24rem),
+    #070b1a;
+}
+
+.click-counter__eyebrow,
+.click-counter__label {
+  margin: 0;
+  color: #a5b4fc;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.click-counter h1 {
+  margin: 0.7rem 0 3rem;
+  color: inherit;
+  font-size: clamp(2.25rem, 6vw, 4.75rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.click-counter__value {
+  min-width: 5.5rem;
+  margin: 0.25rem 0;
+  color: #ffffff;
+  font-family: var(--mono);
+  font-size: clamp(4.5rem, 15vw, 9rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  text-shadow: 0 0 2rem rgba(129, 140, 248, 0.7);
+}
+
+.click-counter__button {
+  margin-top: 2.5rem;
+  padding: 0.95rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  box-shadow: 0 0.8rem 2rem rgba(37, 99, 235, 0.35);
+  cursor: pointer;
+  font: 700 1rem/1 var(--sans);
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.click-counter__button:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 1rem 2.5rem rgba(37, 99, 235, 0.52);
+  transform: translateY(-2px);
+}
+
+.click-counter__button:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.click-counter__button:focus-visible {
+  outline: 3px solid #c4b5fd;
+  outline-offset: 4px;
+}
