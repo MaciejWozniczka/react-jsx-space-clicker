@@ -24,10 +24,13 @@ const FLEET_TYPES = [
 export const AUTO_CLICKER_CATALOG = FLEET_TYPES.map(([id, name], index) => {
   const production = FLEET_PRODUCTION_GROWTH ** index;
   const baseCost = production * FLEET_COST_MULTIPLIER;
+  const artworkColumn = index % 3;
+  const artworkRow = Math.floor(index / 3);
 
   return {
     id,
     name,
+    artworkPosition: `${artworkColumn * 50}% ${artworkRow * (100 / 3)}%`,
     production,
     manualClickBonus: Math.floor(production * FLEET_CLICK_BONUS_RATE),
     baseCost,
