@@ -3,9 +3,19 @@ import "./StellariumExtractor.css";
 
 function StellariumExtractor({ extractionYield = 1 }) {
   const [stellarium, setStellarium] = useState(0);
+  const [extractPower, setExtractPower] = useState(1);
 
   const extractStellarium = () => {
-    setStellarium((currentStellarium) => currentStellarium + extractionYield);
+    setStellarium(
+      (currentStellarium) => currentStellarium + extractionYield * extractPower,
+    );
+  };
+
+  const upgradeExtraction = () => {
+    setExtractPower((currentExtractPower) => currentExtractPower + 1);
+    setStellarium(
+      (currentStellarium) => currentStellarium - extractPower * extractPower,
+    );
   };
 
   return (
@@ -16,9 +26,24 @@ function StellariumExtractor({ extractionYield = 1 }) {
       <output className="stellarium-extractor__value" aria-live="polite">
         {stellarium}
       </output>
-      <p className="stellarium-extractor__label">jednostek</p>
-      <button className="stellarium-extractor__button" onClick={extractStellarium}>
+
+      <p className="stellarium-extractor__label">Moc wydobycia</p>
+      <output className="stellarium-extractor__value" aria-live="polite">
+        {extractPower}
+      </output>
+
+      <button
+        className="stellarium-extractor__button"
+        onClick={extractStellarium}
+      >
         Wydobywaj
+      </button>
+
+      <button
+        className="stellarium-extractor__button"
+        onClick={upgradeExtraction}
+      >
+        Ulepsz wydobycie (koszt: {extractPower * extractPower} Stellarium)
       </button>
     </main>
   );

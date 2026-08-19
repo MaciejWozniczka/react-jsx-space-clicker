@@ -43,6 +43,10 @@
   text-shadow: 0 0 2rem rgba(129, 140, 248, 0.7);
 }
 
+.stellarium-extractor__value + .stellarium-extractor__label {
+  margin-top: 2rem;
+}
+
 .stellarium-extractor__button {
   margin-top: 2.5rem;
   padding: 0.95rem 1.5rem;
