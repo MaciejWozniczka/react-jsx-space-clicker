@@ -1,4 +1,5 @@
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect } from "react";
+import useLocalStorageState from "use-local-storage-state";
 import {
   AUTO_CLICKER_CATALOG,
   getAutoClickerCost,
@@ -82,7 +83,16 @@ export function gameReducer(state, action) {
 }
 
 export function useStellariumGame() {
-  const [gameState, dispatch] = useReducer(gameReducer, initialGameState);
+  const [gameState, setGameState] = useLocalStorageState(
+    "space-clicker-game-state",
+    { defaultValue: initialGameState },
+  );
+  const dispatch = useCallback(
+    (action) => {
+      setGameState((currentState) => gameReducer(currentState, action));
+    },
+    [setGameState],
+  );
   const { autoClickerCounts, extractionLevel, highestStellarium, stellarium } =
     gameState;
   const autoProduction = getAutoProduction(autoClickerCounts);
@@ -111,7 +121,7 @@ export function useStellariumGame() {
     }, 1000);
 
     return () => clearInterval(autoClickerInterval);
-  }, [autoProduction]);
+  }, [autoProduction, dispatch]);
 
   return {
     autoClickers,

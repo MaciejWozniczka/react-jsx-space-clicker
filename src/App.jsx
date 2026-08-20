@@ -1,10 +1,12 @@
 import "./App.css";
-import { useState } from "react";
+import useLocalStorageState from "use-local-storage-state";
 import { Moon, Sun } from "lucide-react";
 import StellariumExtractor from "./components/StellariumExtractor";
 
 function App() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useLocalStorageState("space-clicker-theme", {
+    defaultValue: "dark",
+  });
 
   return (
     <div className={`app app--${theme}`}>
