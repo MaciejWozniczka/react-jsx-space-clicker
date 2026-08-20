@@ -1,10 +1,10 @@
 export const FLEET_CLICK_BONUS_RATE = 0.02;
 export const FLEET_PRODUCTION_GROWTH = 3;
-export const FLEET_COST_MULTIPLIER = 60;
-export const FLEET_COST_GROWTH = 1.16;
+export const FLEET_COST_MULTIPLIER = 80;
+export const FLEET_COST_GROWTH = 1.3;
 export const FLEET_UNLOCK_COST_RATE = 0.6;
-export const EXTRACTION_UPGRADE_BASE_COST = 40;
-export const EXTRACTION_UPGRADE_COST_GROWTH = 1.24;
+export const EXTRACTION_UPGRADE_BASE_COST = 20;
+export const EXTRACTION_UPGRADE_COST_GROWTH = 1.15;
 
 const FLEET_TYPES = [
   ["collector-probe", "Sonda Zbieracza"],
@@ -64,7 +64,10 @@ export function getFleetClickBonus(autoClickerCounts) {
 }
 
 export function getClickYield(extractionLevel, autoClickerCounts) {
-  return getBaseExtractionPower(extractionLevel) + getFleetClickBonus(autoClickerCounts);
+  return (
+    getBaseExtractionPower(extractionLevel) +
+    getFleetClickBonus(autoClickerCounts)
+  );
 }
 
 export function getExtractionUpgrade(extractionLevel) {

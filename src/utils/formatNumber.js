@@ -2,9 +2,15 @@ const integerFormatter = new Intl.NumberFormat("pl-PL", {
   maximumFractionDigits: 0,
 });
 
-const compactFormatter = new Intl.NumberFormat("pl-PL", {
+const compactIntegerFormatter = new Intl.NumberFormat("pl-PL", {
   notation: "compact",
   maximumFractionDigits: 0,
+});
+
+const compactDecimalFormatter = new Intl.NumberFormat("pl-PL", {
+  notation: "compact",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 });
 
 export function formatNumber(value) {
@@ -12,5 +18,5 @@ export function formatNumber(value) {
 }
 
 export function formatCompactNumber(value) {
-  return compactFormatter.format(value);
+  return (value > 1000 ? compactDecimalFormatter : compactIntegerFormatter).format(value);
 }
