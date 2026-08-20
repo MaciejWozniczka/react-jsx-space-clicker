@@ -207,6 +207,39 @@
   border-bottom: 1px solid var(--card-border);
 }
 
+.stellarium-extractor__reset {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.stellarium-extractor__reset-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--card-border) 92%, #f87171);
+  border-radius: 0.65rem;
+  color: var(--sky-muted);
+  background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+  cursor: pointer;
+  font: 700 0.78rem/1 var(--sans);
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.stellarium-extractor__reset-button:hover {
+  border-color: #f87171;
+  color: var(--sky-heading);
+  background: color-mix(in srgb, #ef4444 16%, var(--card-bg));
+}
+
+.stellarium-extractor__reset-button:focus-visible {
+  outline: 3px solid #f87171;
+  outline-offset: 3px;
+}
+
 .stellarium-extractor__shop-heading {
   display: flex;
   align-items: center;

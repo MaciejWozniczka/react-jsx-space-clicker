@@ -1,5 +1,6 @@
 import "./StellariumExtractor.css";
 import { Bot, Gauge, Gem } from "lucide-react";
+import ResetProgressButton from "./ResetProgressButton";
 import { useStellariumGame } from "../hooks/useStellariumGame";
 import { formatCompactNumber, formatNumber } from "../utils/formatNumber";
 import StellariumActions, { StellariumActionControls } from "./functional/StellariumActions";
@@ -14,6 +15,7 @@ function StellariumExtractor({ isDark }) {
     buyAutoClicker,
     clickYield,
     extractStellarium,
+    resetProgress,
     stellarium,
     upgradeCost,
     upgradeExtraction,
@@ -63,6 +65,9 @@ function StellariumExtractor({ isDark }) {
           autoClickers={autoClickers}
           onBuyAutoClicker={buyAutoClicker}
         />
+        <div className="stellarium-extractor__reset">
+          <ResetProgressButton onReset={resetProgress} />
+        </div>
       </section>
     </main>
   );

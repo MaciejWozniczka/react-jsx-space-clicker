@@ -16,6 +16,13 @@ export const initialGameState = {
   autoClickerCounts: {},
 };
 
+function getInitialGameState() {
+  return {
+    ...initialGameState,
+    autoClickerCounts: {},
+  };
+}
+
 export function gameReducer(state, action) {
   if (action.type === "extract" || action.type === "auto-produce") {
     const amount =
@@ -85,7 +92,7 @@ export function gameReducer(state, action) {
 export function useStellariumGame() {
   const [gameState, setGameState] = useLocalStorageState(
     "space-clicker-game-state",
-    { defaultValue: initialGameState },
+    { defaultValue: getInitialGameState() },
   );
   const dispatch = useCallback(
     (action) => {
@@ -131,6 +138,7 @@ export function useStellariumGame() {
     extractStellarium: () => dispatch({ type: "extract" }),
     extractionUpgrade,
     fleetClickBonus,
+    resetProgress: () => setGameState(getInitialGameState()),
     stellarium,
     upgradeCost,
     upgradeExtraction: () => dispatch({ type: "upgrade-extraction" }),
