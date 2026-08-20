@@ -124,6 +124,10 @@ export function useStellariumGame() {
 
   useEffect(() => {
     const autoClickerInterval = setInterval(() => {
+      if (!document.hasFocus()) {
+        return;
+      }
+
       dispatch({ type: "auto-produce", amount: autoProduction });
     }, 1000);
 
