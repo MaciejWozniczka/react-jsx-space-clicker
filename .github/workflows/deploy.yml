@@ -1,0 +1,155 @@
+name: Deploy static site to VPS
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      APP_DIR: /var/www/react-space-clicker-game
+      APP_NAME: react-space-clicker-game
+      APP_HOST: space-clicker.mwozniczka.net
+      CERT_PATH: /etc/ssl/cloudflare/space-clicker.mwozniczka.net.pem
+      CERT_KEY_PATH: /etc/ssl/cloudflare/space-clicker.mwozniczka.net.key
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Build static site
+        run: |
+          npm ci
+          npm run build
+
+      - name: Prepare release directory on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script_stop: true
+          script: |
+            rm -rf /tmp/react-space-clicker-game-release
+            mkdir -p /tmp/react-space-clicker-game-release
+
+      - name: Upload static build
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: dist
+          target: /tmp/react-space-clicker-game-release
+
+      - name: Activate release and configure Nginx
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          APP_DIR: ${{ env.APP_DIR }}
+          APP_NAME: ${{ env.APP_NAME }}
+          APP_HOST: ${{ env.APP_HOST }}
+          CERT_PATH: ${{ env.CERT_PATH }}
+          CERT_KEY_PATH: ${{ env.CERT_KEY_PATH }}
+          RELEASE_ID: ${{ github.sha }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: APP_DIR,APP_NAME,APP_HOST,CERT_PATH,CERT_KEY_PATH,RELEASE_ID
+          script_stop: true
+          script: |
+            set -e
+
+            UPLOAD_DIR=/tmp/react-space-clicker-game-release/dist
+            RELEASE_DIR="$APP_DIR/releases/$RELEASE_ID"
+
+            test -f "$UPLOAD_DIR/index.html"
+            sudo test -r "$CERT_PATH"
+            sudo test -r "$CERT_KEY_PATH"
+
+            if ! command -v nginx >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y nginx
+            fi
+
+            if ! command -v rsync >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y rsync
+            fi
+
+            sudo mkdir -p "$APP_DIR/releases"
+            sudo rm -rf "$RELEASE_DIR"
+            sudo mkdir -p "$RELEASE_DIR"
+            sudo rsync -a --delete "$UPLOAD_DIR/" "$RELEASE_DIR/"
+
+            sudo tee "/etc/nginx/sites-available/$APP_NAME" > /dev/null <<EOF
+            server {
+                listen 80;
+                listen [::]:80;
+                server_name $APP_HOST;
+
+                return 301 https://\$host\$request_uri;
+            }
+
+            server {
+                listen 443 ssl http2;
+                listen [::]:443 ssl http2;
+                server_name $APP_HOST;
+
+                ssl_certificate $CERT_PATH;
+                ssl_certificate_key $CERT_KEY_PATH;
+                ssl_protocols TLSv1.2 TLSv1.3;
+
+                root $APP_DIR/current;
+                index index.html;
+
+                location / {
+                    try_files \$uri \$uri/ /index.html;
+                }
+            }
+            EOF
+
+            sudo ln -sfn "/etc/nginx/sites-available/$APP_NAME" "/etc/nginx/sites-enabled/$APP_NAME"
+            sudo nginx -t
+            sudo ln -s "$RELEASE_DIR" "$APP_DIR/.current-next"
+            sudo mv -Tf "$APP_DIR/.current-next" "$APP_DIR/current"
+            sudo systemctl enable nginx
+            sudo systemctl reload nginx
+
+            rm -rf /tmp/react-space-clicker-game-release
+
+      - name: Verify origin and public deployment
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          APP_HOST: ${{ env.APP_HOST }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: APP_HOST
+          script_stop: true
+          script: |
+            set -e
+            curl -k --fail --resolve "$APP_HOST:443:127.0.0.1" "https://$APP_HOST/"
+            curl -k --fail --resolve "$APP_HOST:443:127.0.0.1" "https://$APP_HOST/nonexistent-client-route"
+            sudo nginx -t
+
+      - name: Verify public URL through Cloudflare
+        run: |
+          curl --fail --show-error --silent --retry 6 --retry-delay 5 "https://${{ env.APP_HOST }}/"
