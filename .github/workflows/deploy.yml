@@ -78,9 +78,20 @@ jobs:
             UPLOAD_DIR=/tmp/react-space-clicker-game-release/dist
             RELEASE_DIR="$APP_DIR/releases/$RELEASE_ID"
 
-            test -f "$UPLOAD_DIR/index.html"
-            sudo test -r "$CERT_PATH"
-            sudo test -r "$CERT_KEY_PATH"
+            if ! test -f "$UPLOAD_DIR/index.html"; then
+              echo "Static build was not uploaded to $UPLOAD_DIR." >&2
+              exit 1
+            fi
+
+            if ! sudo test -r "$CERT_PATH"; then
+              echo "Cloudflare Origin Certificate is missing or unreadable: $CERT_PATH" >&2
+              exit 1
+            fi
+
+            if ! sudo test -r "$CERT_KEY_PATH"; then
+              echo "Cloudflare Origin Certificate private key is missing or unreadable: $CERT_KEY_PATH" >&2
+              exit 1
+            fi
 
             if ! command -v nginx >/dev/null 2>&1; then
               sudo apt-get update
@@ -97,32 +108,31 @@ jobs:
             sudo mkdir -p "$RELEASE_DIR"
             sudo rsync -a --delete "$UPLOAD_DIR/" "$RELEASE_DIR/"
 
-            sudo tee "/etc/nginx/sites-available/$APP_NAME" > /dev/null <<EOF
-            server {
-                listen 80;
-                listen [::]:80;
-                server_name $APP_HOST;
-
-                return 301 https://\$host\$request_uri;
-            }
-
-            server {
-                listen 443 ssl http2;
-                listen [::]:443 ssl http2;
-                server_name $APP_HOST;
-
-                ssl_certificate $CERT_PATH;
-                ssl_certificate_key $CERT_KEY_PATH;
-                ssl_protocols TLSv1.2 TLSv1.3;
-
-                root $APP_DIR/current;
-                index index.html;
-
-                location / {
-                    try_files \$uri \$uri/ /index.html;
-                }
-            }
-            EOF
+            printf '%s\n' \
+              'server {' \
+              '    listen 80;' \
+              '    listen [::]:80;' \
+              "    server_name $APP_HOST;" \
+              '' \
+              '    return 301 https://$host$request_uri;' \
+              '}' \
+              '' \
+              'server {' \
+              '    listen 443 ssl http2;' \
+              '    listen [::]:443 ssl http2;' \
+              "    server_name $APP_HOST;" \
+              '' \
+              "    ssl_certificate $CERT_PATH;" \
+              "    ssl_certificate_key $CERT_KEY_PATH;" \
+              '    ssl_protocols TLSv1.2 TLSv1.3;' \
+              '' \
+              "    root $APP_DIR/current;" \
+              '    index index.html;' \
+              '' \
+              '    location / {' \
+              '        try_files $uri $uri/ /index.html;' \
+              '    }' \
+              '}' | sudo tee "/etc/nginx/sites-available/$APP_NAME" > /dev/null
 
             sudo ln -sfn "/etc/nginx/sites-available/$APP_NAME" "/etc/nginx/sites-enabled/$APP_NAME"
             sudo nginx -t
