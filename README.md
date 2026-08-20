@@ -1,40 +1,62 @@
-# React + Vite
+# Space Clicker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Kosmiczna gra typu clicker, w której rozwijasz wydobycie rzadkiego surowca — Stellarium. Wydobywaj ręcznie, wzmacniaj swoją moc i buduj flotę jednostek, która pracuje także automatycznie.
 
-Currently, two official plugins are available:
+## Rozgrywka
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Klikaj **Wydobywaj**, aby zdobywać Stellarium.
+2. Kupuj ulepszenia wydobycia, aby zwiększać zysk z każdego kliknięcia.
+3. Rozwijaj flotę wydobywczą. Każda jednostka dodaje produkcję na sekundę oraz premię do ręcznego wydobycia.
+4. Odblokowuj kolejne, potężniejsze jednostki, gdy zgromadzisz wymagane zasoby.
 
-## React Compiler
+Postęp, wybrany motyw i stan floty są zapisywane lokalnie w przeglądarce. Przycisk **Resetuj postęp** usuwa ten zapis.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Najważniejsze elementy
 
-## Deployment
+- 12 rozwijanych jednostek floty — od Sondy Zbieracza po Kolektor Kwazara;
+- automatyczne wydobycie Stellarium;
+- rosnący koszt kolejnych poziomów i jednostek;
+- jasny oraz ciemny motyw interfejsu;
+- responsywny interfejs dostępny z klawiatury.
 
-Pushes to `main` or `master` publish the static Vite build to
-`https://space-clicker.mwozniczka.net` through `.github/workflows/deploy.yml`.
+## Uruchomienie lokalne
 
-Before the first deployment:
+Wymagany jest Node.js.
 
-1. In Cloudflare, keep the proxied `AAAA` record `space-clicker` pointing to the
-   Mikrus IPv6 address and set **SSL/TLS encryption mode** to **Full (strict)**.
-2. Create a Cloudflare Origin Certificate for `space-clicker.mwozniczka.net`.
-   On Mikrus, install the certificate and private key at
-   `/etc/ssl/cloudflare/space-clicker.mwozniczka.net.pem` and
-   `/etc/ssl/cloudflare/space-clicker.mwozniczka.net.key`. The directory and key
-   must be readable only by root (for example, directory mode `700`, key mode
-   `600`).
-3. Allow inbound HTTP/HTTPS traffic on ports 80 and 443 to the Mikrus server.
-4. Add the GitHub repository secrets `SSH_HOST`, `SSH_USERNAME`, `SSH_PORT`, and
-   `SSH_PRIVATE_KEY`. The SSH user needs passwordless `sudo` access for the
-   Nginx configuration and `/var/www/react-space-clicker-game`.
+```bash
+npm install
+npm run dev
+```
 
-The workflow leaves other Nginx sites untouched, deploys each build to a unique
-release directory, and switches the `current` symlink only after validating the
-Nginx configuration.
+Aplikacja będzie dostępna pod adresem wyświetlonym przez Vite. Do sprawdzenia wersji produkcyjnej użyj:
 
-## Expanding the ESLint configuration
+```bash
+npm run build
+npm run preview
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Dostępne polecenia
+
+| Polecenie | Opis |
+| --- | --- |
+| `npm run dev` | Uruchamia serwer deweloperski. |
+| `npm run build` | Tworzy produkcyjny build w katalogu `dist`. |
+| `npm run preview` | Lokalnie podgląda produkcyjny build. |
+| `npm run lint` | Sprawdza kod ESLintem. |
+
+## Wdrożenie
+
+Każdy push do gałęzi `main` lub `master` uruchamia GitHub Actions, buduje aplikację i publikuje ją pod adresem [space-clicker.mwozniczka.net](https://space-clicker.mwozniczka.net). Konfiguracja procesu znajduje się w [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+
+Do działania wdrożenia potrzebne są sekrety repozytorium: `SSH_HOST`, `SSH_USERNAME`, `SSH_PORT` oraz `SSH_PRIVATE_KEY`.
+
+## Technologie
+
+- React i Vite
+- Framer Motion
+- Lucide
+- localStorage
+
+## Licencja
+
+Projekt jest udostępniony na warunkach licencji [MIT](LICENSE).
