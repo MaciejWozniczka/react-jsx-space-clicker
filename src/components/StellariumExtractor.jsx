@@ -3,10 +3,13 @@ import { Bot, Gauge, Gem } from "lucide-react";
 import ResetProgressButton from "./ResetProgressButton";
 import { useStellariumGame } from "../hooks/useStellariumGame";
 import { formatCompactNumber, formatNumber } from "../utils/formatNumber";
-import StellariumActions, { StellariumActionControls } from "./functional/StellariumActions";
+import StellariumActions, {
+  StellariumActionControls,
+} from "./functional/StellariumActions";
 import StellariumHeader from "./StellariumHeader";
 import StellariumMetric from "./StellariumMetric";
 import StarField from "./StarField";
+import PWAInstallButton from "./PWAInstallButton";
 
 function StellariumExtractor({ isDark }) {
   const {
@@ -28,7 +31,10 @@ function StellariumExtractor({ isDark }) {
         <div className="stellarium-extractor__identity">
           <StellariumHeader />
         </div>
-        <div className="stellarium-extractor__metrics" aria-label="Stan wydobycia">
+        <div
+          className="stellarium-extractor__metrics"
+          aria-label="Stan wydobycia"
+        >
           <StellariumMetric
             icon={Gem}
             label="Wydobyte Stellarium"
@@ -60,13 +66,19 @@ function StellariumExtractor({ isDark }) {
           upgradeCost={upgradeCost}
         />
       </header>
-      <section className="stellarium-extractor__content" aria-label="Sterowanie wydobyciem">
+      <section
+        className="stellarium-extractor__content"
+        aria-label="Sterowanie wydobyciem"
+      >
         <StellariumActions
           autoClickers={autoClickers}
           onBuyAutoClicker={buyAutoClicker}
         />
         <div className="stellarium-extractor__reset">
           <ResetProgressButton onReset={resetProgress} />
+        </div>
+        <div className="stellarium-extractor__reset">
+          <PWAInstallButton />
         </div>
       </section>
     </main>
