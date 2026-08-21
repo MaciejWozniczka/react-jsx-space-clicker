@@ -73,9 +73,8 @@
   height: 2.75rem;
   padding: 0;
   border: 0;
-  border-radius: 999px;
   color: var(--theme-toggle-text);
-  background: var(--control-highlight);
+  background: transparent;
   box-shadow: none;
   cursor: pointer;
   font: 700 0.78rem/1 var(--sans);
@@ -89,7 +88,6 @@
 }
 
 .theme-toggle:hover {
-  background: var(--control-highlight);
   transform: translateY(-2px);
 }
 

@@ -88,7 +88,7 @@
 .stellarium-extractor__metric {
   min-width: 0;
   padding: 0.15rem clamp(0.9rem, 2vw, 1.5rem);
-  text-align: left;
+  text-align: center;
 }
 
 .stellarium-extractor__metric + .stellarium-extractor__metric {
@@ -96,7 +96,7 @@
 }
 
 .stellarium-extractor__metric .stellarium-extractor__label {
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0.3rem;
   color: color-mix(in srgb, var(--sky-muted) 86%, #c4b5fd);
   font-size: 0.66rem;
@@ -107,7 +107,7 @@
 .stellarium-extractor__value {
   display: flex;
   align-items: baseline;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0.15em;
   min-width: 0;
   margin: 0.35rem 0 0;
@@ -420,6 +420,22 @@
   outline-offset: 3px;
 }
 
+@media (min-width: 641px) and (max-width: 730px) {
+  .stellarium-extractor__shop-stat {
+    grid-template-columns: minmax(0, 1fr) max-content;
+  }
+
+  .stellarium-extractor__shop-stat .stellarium-extractor__shop-production:last-child {
+    grid-column: 2;
+  }
+
+  .stellarium-extractor__shop-button {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
 @media (max-width: 640px) {
   .theme-toggle {
     min-width: 48px;
@@ -458,7 +474,7 @@
   .stellarium-extractor__status-panel {
     grid-template-columns: 1fr;
     gap: 0.9rem;
-    padding: 1rem 4.2rem 0.9rem 1rem;
+    padding: 1rem;
   }
 
   .stellarium-extractor__identity {
@@ -478,7 +494,8 @@
   }
 
   .stellarium-extractor__metrics {
-    gap: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem 0;
   }
 
   .stellarium-extractor__metric {
@@ -488,6 +505,10 @@
 
   .stellarium-extractor__metric + .stellarium-extractor__metric {
     border-left: 0;
+  }
+
+  .stellarium-extractor__metric:nth-child(3) {
+    grid-column: 1 / -1;
   }
 
   .stellarium-extractor__metric .stellarium-extractor__label {

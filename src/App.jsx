@@ -25,9 +25,9 @@ function App() {
         aria-pressed={theme === "light"}
       >
         {theme === "dark" ? (
-          <Sun size="1.25rem" aria-hidden="true" />
+          <Sun size="1.6rem" aria-hidden="true" />
         ) : (
-          <Moon size="1.25rem" aria-hidden="true" />
+          <Moon size="1.6rem" aria-hidden="true" />
         )}
       </button>
     </div>

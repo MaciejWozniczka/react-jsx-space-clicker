@@ -18,5 +18,7 @@ export function formatNumber(value) {
 }
 
 export function formatCompactNumber(value) {
-  return (value > 1000 ? compactDecimalFormatter : compactIntegerFormatter).format(value);
+  return (value > 1000 ? compactDecimalFormatter : compactIntegerFormatter)
+    .format(value)
+    .replace("tys.", "tys");
 }
